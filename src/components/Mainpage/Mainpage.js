@@ -35,6 +35,7 @@ const Mainpage = () => {
                     required
                     autoComplete='off'
                     style={{width:'12rem'}}
+                    title="custom name for feed URL"
                 />
                 <input 
                     id="feedURL"

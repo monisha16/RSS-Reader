@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './feedItems.module.scss';
 import { v4 as uuid } from 'uuid';
 import deleteImg from '../../assets/icons/delete.png';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { update_feedList, update_feedData } from '../../store/actions/feedAction';
+import { FEED_DATA, FEED_LIST } from '../../store/actionTypes';
 const FeedItemsCard = ({feed, id, toggleSetFeed}) => {
     // 1. Decide what feeds get viewed through checkboxes | toggle view
     // 2. Delete a feed on click of delete
@@ -36,7 +38,6 @@ const FeedItemsCard = ({feed, id, toggleSetFeed}) => {
             style={{ background: feed[id].view ? 'green' : 'red'}}  
         >
         <div className={styles.feedName} onClick={(e) => handleSelect(e, id)}>{feed[id].name}</div>
-        {/* <button className={styles.feedcard_close} }> X </button> */}
         <img className={styles.feedcard_close} src={deleteImg} alt={"delete-feed"} onClick={(e)=>deleteFeed(e,id)} />
         </div>
     );
@@ -48,7 +49,7 @@ const FormSection = () => {
     const [feedName, setFeedName] = useState("");
     const [feedURL, setFeedURL] = useState("");
     const [feed, setFeed] = useState({});
-
+    const dispatch = useDispatch();
     useEffect(() => {
         const feedItemsInSessionStorage = sessionStorage.getItem('FeedList');
         if (feedItemsInSessionStorage) {
@@ -58,6 +59,11 @@ const FormSection = () => {
 
     useEffect(() => {
         sessionStorage.setItem('FeedList', JSON.stringify(feed));
+        // dispatch(update_feedList(feed));
+        dispatch({
+            type: FEED_LIST,
+            payload: feed
+        });
     }, [feed]);
 
     function handleFeedName(e) {
@@ -109,14 +115,10 @@ const FormSection = () => {
                     <h2> No Feeds </h2>
                     :
                     Object.keys(feed).map((id) => {
-                        {/* console.log("Object.keys", feed[id]) */}
                         return <FeedItemsCard key={id} feed={feed} id={id} toggleSetFeed={setFeed} />
                     })
-                    
                 }
-                
             </div>
-
         </>
     );
 }

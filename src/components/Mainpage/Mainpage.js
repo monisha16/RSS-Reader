@@ -4,16 +4,16 @@ import axios from "axios";
 import { v4 as uuid } from 'uuid';
 // s5mybzzw2gktjneccuxfnbs9yikyzd6eohm7d70k
 const Mainpage = () => {
-   const [completeFeed, setCompleteFeed] = useState({}); //complete data of the feeds
-   const [feedList, setFeedList] = useState({}); //just the lit of names and urls
-    const [ feedItems, setFeedItems] = useState({}); // new feed Item list
+  const [completeFeed, setCompleteFeed] = useState({}); //complete data of the feeds
+  const [feedList, setFeedList] = useState({}); //just the list of names and urls
+  const [ feedItems, setFeedItems] = useState({}); // new feed Item list
 
     useEffect(() => {
-        const feedItemsInSessionStorage = sessionStorage.getItem('FeedList');
+        const feedItemsInSessionStorage = sessionStorage.getItem('FeedList'); //{id, name, url}
         if (feedItemsInSessionStorage) {
             setFeedList(JSON.parse(feedItemsInSessionStorage));
         }
-        const feedDataInSessionStorage = sessionStorage.getItem('FeedData');
+        const feedDataInSessionStorage = sessionStorage.getItem('FeedData'); //{complete data mapping}
         if (feedDataInSessionStorage) {
             setCompleteFeed(JSON.parse(feedDataInSessionStorage));
         }
@@ -23,12 +23,6 @@ const Mainpage = () => {
         sessionStorage.setItem('FeedData', JSON.stringify(completeFeed));
     }, [completeFeed]);
     
-    useEffect(() => {
-        console.log("feedList", feedList)
-    }, [feedList]);
-
-    // const { userFeeds } = useContext(FeedContext);
-//   const [feeds, setFeeds] = useState([]);
 
 //   const apiKey = process.env.REACT_APP_API_KEY;
     const apiKey = "s5mybzzw2gktjneccuxfnbs9yikyzd6eohm7d70k";
@@ -42,41 +36,41 @@ const Mainpage = () => {
         }
     });
 
-    /**
-    return
-    {
 
-    }
-    */
+  const getFeeds = async (feedItem) => {
+    const { data } = await axios.get(feedItem.url);
 
-  const getFeeds = async (url, index) => {
-    const { data } = await axios.get(url);
     Object.keys(data).forEach(item=>{
-        if(item=== 'items')
+        if(item === 'items')
         {
-            setFeedItems({});
             data[item].forEach(
                 (content)=> {
-                    let newItems = {};
-                    newItems = { [uuid()]: content }
-                    setFeedItems((data)=>{return {...data, newItems}});
+                setFeedItems((data) => { return { ...data, [uuid()]: content }});
             });
-            console.log("insideIF", feedItems);
         }
     });
+    let newList = {};
+    newList = feedItems;
+    console.log("feedItems", feedItems)
+    setCompleteFeed((data) => { return { ...data, [feedItem.id]: newList } });
   };
+
+  // useEffect(() => {
+    
+  // }, [feedItems])
 
   useEffect(() => {
     urlList.forEach((feedItem) =>
     {
-        let newList = {};
-        // getFeeds(feedItem.url);
-        // console.log("feedContent", feedItems);
-    })
-
-    // urls.forEach((url, index) => getFeeds(url, index));
-    // localStorage.setItem("userFeeds", JSON.stringify(userFeeds));
+        getFeeds(feedItem);
+        // console.log("urlList - feedItem", urlList, feedItem);
+    });
   }, [feedList]);
+
+  useEffect(()=>{
+    sessionStorage.setItem("FeedData", JSON.stringify(completeFeed));
+    // console.log("completeFeed", completeFeed);
+  },[completeFeed])
 
   return (
     <div>

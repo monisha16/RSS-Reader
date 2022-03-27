@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import styles from './emptyfeeds.module.scss';
 import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
+import { Navigate } from 'react-router-dom';
 
 const EmptyFeeds = ({type}) => {
     const [modal, setModal] = useState(false)
@@ -23,7 +24,7 @@ const EmptyFeeds = ({type}) => {
                     <h1>Bookmarks</h1>
                     <div className={styles.content}>
                         <div className={styles.content__text}>{"You currently don't have any bookmarks"}</div>
-                        <button> Go to My Feeds </button>
+                        <button onClick={()=> Navigate('/')} > Go to My Feeds </button>
                     </div>
                 </div>
             }

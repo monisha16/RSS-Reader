@@ -41,3 +41,23 @@
         }
     }
 }
+@media only screen and (min-width: 200px) and (max-width: 600px) {
+    .content{
+        // padding-right: 5rem;
+        width: 90%;
+        &__text{
+            font-size: 1.5rem ;
+            font-weight: 500;
+        }
+    }  
+    
+}
+// @media only screen and (min-width: 600px) and (max-width: 900px) {
+//     .header__right{
+//         width:30%;
+//     }
+//     .header{
+//         padding: 2rem;
+//     }
+    
+// }

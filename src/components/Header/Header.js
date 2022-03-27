@@ -36,12 +36,12 @@ const Header = () => {
 
                 <div className={styles.header__right__text}
                     onClick={handleBookmarks}
-                        style={{ color: toggleColor ? 'var(--primary)' : 'var(--orange)' }}
+                        style={{ color: toggleColor ? 'rgba(0,0,0,0.3)' : 'var(--orange)' }}
                     > Bookmarks</div>
 
                 <div className={styles.header__right__text}
                     onClick={handleModal}
-                        style={{ color: toggleColor? 'var(--orange)': 'var(--primary)'}}
+                        style={{ color: toggleColor ? 'var(--orange)' : 'rgba(0,0,0,0.3)'}}
                     > My Feeds </div>
             </div>
         </div>

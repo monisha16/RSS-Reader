@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styles from './feedItems.module.scss';
 import { v4 as uuid } from 'uuid';
 import axios from "axios";
-import deleteImg from '../../assets/icons/delete.png';
+import deleteImg from '../../assets/images/delete.png';
+import toggleOn from '../../assets/images/toggleOn.png';
+import toggleOff from '../../assets/images/toggleOff.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { update_feedList, update_feedData } from '../../store/actions/feedAction';
 import { FEED_DATA, FEED_LIST } from '../../store/actionTypes';
@@ -64,10 +66,21 @@ const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
     }
     return (
         <div className={styles.items_container}
-            style={{ background: feed[id].view ? 'green' : 'red' }}
+            // style={{ background: feed[id].view ? 'green' : 'red' }}
         >
-            <div className={styles.feedName} onClick={(e) => handleSelect(e, id)}>{feed[id].name}</div>
-            <img className={styles.feedcard_close} src={deleteImg} alt={"delete-feed"} onClick={(e) => deleteFeed(e, id)} />
+            <div className={styles.items_container__feedName}>{feed[id].name}</div>
+            <div className={styles.items_container__feedURL}>{feed[id].url}</div>
+            <div className={styles.items_container__icons}>
+                <div onClick={(e) => handleSelect(e, id)}>
+                    {feed[id].view ?
+                        <img className={styles.items_container__toggleView} src={toggleOn} alt="view state" /> :
+                        <img className={styles.items_container__toggleView} src={toggleOff} alt="view state" />
+                    }
+                </div>
+                <img className={styles.items_container__delete} src={deleteImg} 
+                alt={"delete-feed"} onClick={(e) => deleteFeed(e, id)} />
+            </div>
+            
         </div>
     );
 }
@@ -133,8 +146,9 @@ const FormSection = () => {
         setFeedName(e.target.value);
     }
     function handleFeedURL(e) {
-        setFeedURL(e.target.value);
+        setFeedURL(e.target.value.trim());
     }
+
     function handleSubmit(e) {
         let tempFeedList = { ...feedList, [uuid()]: { name: feedName, url: feedURL, view: true } };
         dispatch({
@@ -172,7 +186,7 @@ const FormSection = () => {
                     autoComplete='off'
                     style={{ width: '20rem' }}
                 />
-                <button type="Submit"> Add </button>
+                <button type="Submit"> + </button>
             </form>
 
             <div className={styles.feedList}>
@@ -196,8 +210,9 @@ const FeedItemsWithFeedData = ({ toggle }) => {
     return (
         <div className={styles.container}>
             <div className={styles.container__modal}>
-                <div className={styles.close}>
-                    <button onClick={handleClose}> X </button>
+                <div className={styles.header}>
+                    <div className={styles.header__text}> Manage Feeds </div>
+                    <button className={styles.header__close} onClick={handleClose}> close </button>
                 </div>
                 <FormSection />
             </div>

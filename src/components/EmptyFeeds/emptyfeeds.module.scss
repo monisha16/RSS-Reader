@@ -35,5 +35,9 @@
         font-size: 1.2rem;
         width: 13rem;
         padding: 0.5rem;
+
+        &:hover{
+            cursor: pointer;
+        }
     }
 }

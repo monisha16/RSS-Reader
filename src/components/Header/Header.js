@@ -5,11 +5,12 @@ import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
 import { useNavigate } from 'react-router-dom';
 
 
+
 const Header = () => {
     const navigate = useNavigate();
-    const [modal, setModal] = useState(false)
-    const [toggleBookmark, settoggleBookmark] = useState(false);
-    const [toggleMyFeed, settoggleMyFeed] = useState(true);
+    // const [modal, setModal] = useState(false)
+    // const [toggleBookmark, settoggleBookmark] = useState(false);
+    // const [toggleMyFeed, settoggleMyFeed] = useState(true);
     const [toggleColor, setToggleColor] = useState(true);
 
     function handleBookmarks(){
@@ -42,12 +43,8 @@ const Header = () => {
                     onClick={handleModal}
                         style={{ color: toggleColor? 'var(--orange)': 'var(--primary)'}}
                     > My Feeds </div>
-                
-                {/* <span className={styles.header__right__text}
-                onClick={handleAuthentication}> Login/SignUp</span> */}
             </div>
         </div>
-            {/* modal && <FeedItemsWithFeedData toggle={setModal} /> */} 
         </>
     );
 };

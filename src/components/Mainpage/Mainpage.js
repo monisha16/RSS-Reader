@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 import Header from '../Header/Header';
 import EmptyFeeds from '../EmptyFeeds/EmptyFeeds';
+import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
 
 const Mainpage = () =>{
   let dispatch = useDispatch();
@@ -49,6 +50,7 @@ const Mainpage = () =>{
     localStorage.setItem('Bookmarks', JSON.stringify(bookmarkData));
   }, [bookmarkData])
 
+  const [modal, setModal] = useState(false);
 
   return(
     <>
@@ -65,11 +67,11 @@ const Mainpage = () =>{
           </div>
             :
           <div className={styles.emptyfeed} >
-            <EmptyFeeds  type="myFeeds" />
+            <EmptyFeeds setModal={setModal}  type="myFeeds" />
           </div>
           
         }
-      
+      {modal && <FeedItemsWithFeedData/>}
     </>
     
   )

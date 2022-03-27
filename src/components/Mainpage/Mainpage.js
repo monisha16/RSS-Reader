@@ -1,8 +1,22 @@
-import React,{useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './mainpage.module.scss';
 import axios from "axios";
 import { v4 as uuid } from 'uuid';
-// s5mybzzw2gktjneccuxfnbs9yikyzd6eohm7d70k
+
+
+// const Mainpage = () =>{
+//   const { feedList, setFeedList } = useContext(FeedContext);
+//   return(
+//     <div>
+//       Hello
+//     </div>
+//   )
+// }
+
+
+
+
+
 const Mainpage = () => {
   const [completeFeed, setCompleteFeed] = useState({}); //complete data of the feeds
   const [feedList, setFeedList] = useState({}); //just the list of names and urls
@@ -39,7 +53,7 @@ const Mainpage = () => {
 
   const getFeeds = async (feedItem) => {
     const { data } = await axios.get(feedItem.url);
-
+    console.log(data);
     Object.keys(data).forEach(item=>{
         if(item === 'items')
         {
@@ -55,9 +69,6 @@ const Mainpage = () => {
     setCompleteFeed((data) => { return { ...data, [feedItem.id]: newList } });
   };
 
-  // useEffect(() => {
-    
-  // }, [feedItems])
 
   useEffect(() => {
     urlList.forEach((feedItem) =>

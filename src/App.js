@@ -7,6 +7,7 @@ function App() {
     <div className={styles.container}>
       <Header/>
       <SampleMainPage />
+      {/* <Mainpage /> */}
     </div>
   );
 }

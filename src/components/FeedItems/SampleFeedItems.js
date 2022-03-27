@@ -8,13 +8,13 @@ import { FEED_DATA, FEED_LIST } from '../../store/actionTypes';
 
 
 
-const FeedItemsCard = ({feed, id, toggleSetFeed}) => {
+const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
     // 1. Decide what feeds get viewed through checkboxes | toggle view
     // 2. Delete a feed on click of delete
     // 3. Edit the name of the feed
     // 4. fix SCROLLING
 
-    function deleteFeed(e,id){
+    function deleteFeed(e, id) {
         let newFeedList = Object.keys(feed)
             .filter((key) => key !== id)
             .reduce((obj, key) => {
@@ -22,51 +22,52 @@ const FeedItemsCard = ({feed, id, toggleSetFeed}) => {
                 obj[key] = feed[key];
                 return obj;
             }, {});
-        sessionStorage.setItem('FeedList', JSON.stringify(newFeedList));
+        // sessionStorage.setItem('FeedList', JSON.stringify(newFeedList));
         toggleSetFeed(newFeedList);
     }
 
-    function handleSelect(e,id){
+    function handleSelect(e, id) {
         let newObj = {
-                        ...feed[id],
-                        view: !feed[id].view
-                    }
-        let newFeed = { ...feed, [id]: newObj};
+            ...feed[id],
+            view: !feed[id].view
+        }
+        let newFeed = { ...feed, [id]: newObj };
 
-        sessionStorage.setItem('FeedList', JSON.stringify(newFeed));
+        // sessionStorage.setItem('FeedList', JSON.stringify(newFeed));
         toggleSetFeed(newFeed);
     }
-    return(
+    return (
         <div className={styles.items_container}
-            style={{ background: feed[id].view ? 'green' : 'red'}}  
+            style={{ background: feed[id].view ? 'green' : 'red' }}
         >
-        <div className={styles.feedName} onClick={(e) => handleSelect(e, id)}>{feed[id].name}</div>
-        <img className={styles.feedcard_close} src={deleteImg} alt={"delete-feed"} onClick={(e)=>deleteFeed(e,id)} />
+            <div className={styles.feedName} onClick={(e) => handleSelect(e, id)}>{feed[id].name}</div>
+            <img className={styles.feedcard_close} src={deleteImg} alt={"delete-feed"} onClick={(e) => deleteFeed(e, id)} />
         </div>
     );
 }
 
 const FormSection = () => {
 
-    const [feedName, setFeedName] = useState("");
-    const [feedURL, setFeedURL] = useState("");
-    const [feed, setFeed] = useState({});
+    const [feedName, setFeedName] = useState(""); // name Input
+    const [feedURL, setFeedURL] = useState(""); // URL Input
+    const [formFeed, setFormFeed] = useState({}); //Final Form Value
+
     const dispatch = useDispatch();
+
     useEffect(() => {
         const feedItemsInSessionStorage = sessionStorage.getItem('FeedList');
         if (feedItemsInSessionStorage) {
-            setFeed(JSON.parse(feedItemsInSessionStorage));
+            setFormFeed(JSON.parse(feedItemsInSessionStorage));
         }
     }, []);
 
     useEffect(() => {
-        sessionStorage.setItem('FeedList', JSON.stringify(feed));
-        // dispatch(update_feedList(feed));
+        sessionStorage.setItem('FeedList', JSON.stringify(formFeed));
         dispatch({
             type: FEED_LIST,
-            payload: feed
+            payload: formFeed
         });
-    }, [feed]);
+    }, [formFeed]);
 
     function handleFeedName(e) {
         setFeedName(e.target.value);
@@ -75,14 +76,14 @@ const FormSection = () => {
         setFeedURL(e.target.value);
     }
     function handleSubmit(e) {
-        setFeed((data) => {
+        setFormFeed((data) => {
             return { ...data, [uuid()]: { name: feedName, url: feedURL, view: true } };
         })
         setFeedURL("")
         setFeedName("");
         e.preventDefault();
     }
-    
+
     return (
         <>
             <form className={styles.formSection} onSubmit={handleSubmit}>
@@ -111,13 +112,13 @@ const FormSection = () => {
                 />
                 <button type="Submit"> Add </button>
             </form>
-            
+
             <div className={styles.feedList}>
-                { Object.keys(feed).length ===0 ?
+                {Object.keys(formFeed).length === 0 ?
                     <h2> No Feeds </h2>
                     :
-                    Object.keys(feed).map((id) => {
-                        return <FeedItemsCard key={id} feed={feed} id={id} toggleSetFeed={setFeed} />
+                    Object.keys(formFeed).map((id) => {
+                        return <FeedItemsCard key={id} feed={formFeed} id={id} toggleSetFeed={setFormFeed} />
                     })
                 }
             </div>
@@ -126,7 +127,7 @@ const FormSection = () => {
 }
 
 
-const FeedItems = ({ toggle }) => {
+const SampleFeedItems = ({ toggle }) => {
 
     function handleClose() {
         toggle((modal) => !modal);
@@ -143,4 +144,4 @@ const FeedItems = ({ toggle }) => {
     );
 };
 
-export default FeedItems;
+export default SampleFeedItems;

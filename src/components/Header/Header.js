@@ -3,6 +3,8 @@ import styles from './header.module.scss'
 import R from '../../assets/icons/r.png';
 import S from '../../assets/icons/s.png';
 import FeedItems from '../FeedItems/FeedItems';
+import SampleFeedItems from '../FeedItems/SampleFeedItems';
+import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
 
 const Header = () => {
     const [modal, setModal] = useState(false)
@@ -34,7 +36,8 @@ const Header = () => {
             </div>
         </div>
             {
-                modal && <FeedItems toggle={setModal} />
+               // modal && <SampleFeedItems toggle={setModal} />
+                modal && <FeedItemsWithFeedData toggle={setModal} />
             }
         </>
     );

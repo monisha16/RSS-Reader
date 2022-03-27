@@ -1,26 +1,26 @@
 .header{
-    // background: var(--color-secondary);
+    background: var(--white);
     height: 10%;
     position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: .5rem 4rem;
-    color: var(--color-primary);
-    align-items: center;
+    margin-top: 0.5rem;
+    padding: 1rem 5rem;
+    color: var(--primary);
+    align-items: flex-end;
 
     &__image{
         display: flex;
         flex-direction: row;
-        width: 30%;
-        // margin: 1.5rem;
+        width: 20%;
         img{
-            height: 2.5rem;
+            height: 2rem;
         }
     }
     
     &__right{
-        width: 30%;
+        width: 20%;
         justify-content: space-between;
         align-items: center;
         display: flex;
@@ -31,7 +31,8 @@
 
 @media only screen and (min-width: 200px) and (max-width: 600px) {
     .header__right{
-        width:75%;
+        // padding-right: 5rem;
+        width: 50%;
     }
     .header{
         padding: 2rem;
@@ -40,7 +41,7 @@
 }
 @media only screen and (min-width: 600px) and (max-width: 900px) {
     .header__right{
-        width:50%;
+        width:30%;
     }
     .header{
         padding: 2rem;

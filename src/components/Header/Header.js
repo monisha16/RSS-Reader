@@ -1,9 +1,6 @@
 import React,{useState} from 'react';
 import styles from './header.module.scss'
-import R from '../../assets/icons/r.png';
-import S from '../../assets/icons/s.png';
-import FeedItems from '../FeedItems/FeedItems';
-import SampleFeedItems from '../FeedItems/SampleFeedItems';
+import myRSSFeederLogo from '../../assets/images/myRSSFeederLogo.png';
 import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,38 +8,46 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
     const navigate = useNavigate();
     const [modal, setModal] = useState(false)
+    const [toggleBookmark, settoggleBookmark] = useState(false);
+    const [toggleMyFeed, settoggleMyFeed] = useState(true);
+
     function handleBookmarks(){
-        // console.log("bookmark");
+        settoggleBookmark((value)=>!value);
+        settoggleMyFeed((value)=>!value);
         navigate('/bookmarks');
     }
-    function handleAuthentication(){
-        console.log("Auth");
-    }
+    // function handleAuthentication(){
+    //     console.log("Auth");
+    // }
     function handleModal(){
-        setModal(!modal)
+        settoggleBookmark((value) => !value);
+        settoggleMyFeed((value) => !value);
+        // setModal(!modal)
+        navigate('/');
     }
     return (
         <>
         <div className={styles.header}>
-            {/* <h1> RSS Feed Reader </h1> */}
             <div className={styles.header__image}>
-                <img src={R} alt="logo" />
-                <img src={S} alt="logo" />
-                <img src={S} alt="logo" />
+                <img src={myRSSFeederLogo} alt="logo" />
             </div>
             <div className={styles.header__right}>
+
                 <span className={styles.header__right__text}
-                onClick={handleModal}> Feeds </span>
+                    onClick={handleBookmarks}
+                        style={{ color: toggleBookmark ? 'var(--orange)' : 'var(--primary)' }}
+                    > Bookmarks</span>
+
                 <span className={styles.header__right__text}
-                onClick={handleBookmarks}> Bookmarks</span>
+                    onClick={handleModal}
+                        style={{ color: toggleMyFeed? 'var(--orange)': 'var(--primary)'}}
+                    > My Feeds </span>
+                
                 {/* <span className={styles.header__right__text}
                 onClick={handleAuthentication}> Login/SignUp</span> */}
             </div>
         </div>
-            {
-               // modal && <SampleFeedItems toggle={setModal} />
-                modal && <FeedItemsWithFeedData toggle={setModal} />
-            }
+            {/* modal && <FeedItemsWithFeedData toggle={setModal} /> */} 
         </>
     );
 };

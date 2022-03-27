@@ -3,11 +3,17 @@ import styles from './header.module.scss'
 import R from '../../assets/icons/r.png';
 import S from '../../assets/icons/s.png';
 import FeedItems from '../FeedItems/FeedItems';
+import SampleFeedItems from '../FeedItems/SampleFeedItems';
+import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
+    const navigate = useNavigate();
     const [modal, setModal] = useState(false)
     function handleBookmarks(){
-        console.log("bookmark");
+        // console.log("bookmark");
+        navigate('/bookmarks');
     }
     function handleAuthentication(){
         console.log("Auth");
@@ -29,12 +35,13 @@ const Header = () => {
                 onClick={handleModal}> Feeds </span>
                 <span className={styles.header__right__text}
                 onClick={handleBookmarks}> Bookmarks</span>
-                <span className={styles.header__right__text}
-                onClick={handleAuthentication}> Login/SignUp</span>
+                {/* <span className={styles.header__right__text}
+                onClick={handleAuthentication}> Login/SignUp</span> */}
             </div>
         </div>
             {
-                modal && <FeedItems toggle={setModal} />
+               // modal && <SampleFeedItems toggle={setModal} />
+                modal && <FeedItemsWithFeedData toggle={setModal} />
             }
         </>
     );

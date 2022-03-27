@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// import {FeedProvider} from './context/FeedContext';
 import { Provider } from 'react-redux';
 import store from './store/index';
 
@@ -10,6 +11,9 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
+  // <FeedProvider>
+      // <App />
+  // </FeedProvider>,
   document.getElementById('root')
 );
 

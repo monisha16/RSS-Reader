@@ -100,9 +100,9 @@ const FormSection = () => {
         return states;
     });
 
-    useEffect(() => {
-        sessionStorage.setItem('FeedList', JSON.stringify(feedList));
-    }, [feedList]);
+    // useEffect(() => {
+    //     sessionStorage.setItem('FeedList', JSON.stringify(feedList));
+    // }, [feedList]);
 
     const getFeeds = async (feedItem) => {
         const { data } = await axios.get(feedItem.url);
@@ -138,9 +138,10 @@ const FormSection = () => {
         });
     }, [feedList]);
 
-    useEffect(()=>{
-        sessionStorage.setItem('FeedData', JSON.stringify(feedData));
-    },[feedData])
+    // useEffect(()=>{
+    //     debugger;
+    //     sessionStorage.setItem('FeedData', JSON.stringify(feedData));
+    // },[feedData])
 
     function handleFeedName(e) {
         setFeedName(e.target.value);
@@ -188,14 +189,22 @@ const FormSection = () => {
                 />
                 <button type="Submit"> + </button>
             </form>
-
+            <div className={styles.feedTable}>
+                <div className={styles.feedTable__name}>Feed Name</div>
+                <div className={styles.feedTable__feedURL}>URL</div>
+                {/* <div className={styles.feedTable__icons}>Status</div> */}
+            </div>
+            
             <div className={styles.feedList}>
                 {Object.keys(feedList).length === 0 ?
-                    <h2> No Feeds </h2>
+                    <h2 style={{color:'rgba(0,0,0,0.3)'}}> No Feeds </h2>
                     :
-                    Object.keys(feedList).map((id) => {
+                    <>
+                    {Object.keys(feedList).map((id) => {
                         return <FeedItemsCard key={id} feed={feedList} id={id} />
-                    })
+                    })}
+
+                    </>                    
                 } 
             </div>
         </>

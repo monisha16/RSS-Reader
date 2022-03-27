@@ -49,18 +49,22 @@ const Bookmarks = () => {
 
     return (
         <>
-            <Header/>
             {
                 Object.keys(bookmarkData).length !== 0 ?
-                    <div className={styles.mainpage}>
+                <div className={styles.mainpage}>
+                    <div className={styles.mainHeader}>
+                        <h1 style={{ fontWeight: 900, fontSize: "2rem" }}>Bookmarks</h1>
+                    </div>
+                
+                    <div className={styles.feedCardContainer}>
                         <FeedCard cardData={bookmarkData} type="bookmark" />
                     </div>
-                        :
+                </div>
+            :
                     <div className={styles.emptyfeed} >
                         <EmptyFeeds type="bookmarks" />
                     </div>
-                }
-            
+            }
         </>
         
     );

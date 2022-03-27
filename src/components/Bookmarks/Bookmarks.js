@@ -4,6 +4,7 @@ import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 import styles from './bookmarks.module.scss';
 import FeedCard from '../FeedCard/FeedCard';
 import Header from '../Header/Header';
+import EmptyFeeds from '../EmptyFeeds/EmptyFeeds';
 
 const Bookmarks = () => {
     let dispatch = useDispatch();
@@ -49,16 +50,17 @@ const Bookmarks = () => {
     return (
         <>
             <Header/>
-            <div className={styles.mainpage}>
-                {
-                    Object.keys(bookmarkData).length !== 0 ?
+            {
+                Object.keys(bookmarkData).length !== 0 ?
+                    <div className={styles.mainpage}>
                         <FeedCard cardData={bookmarkData} type="bookmark" />
+                    </div>
                         :
-                        <div className={styles.mainpage__nofeed}>
-                            <h1> Please Add Bookmarks </h1>
-                        </div>
+                    <div className={styles.emptyfeed} >
+                        <EmptyFeeds type="bookmarks" />
+                    </div>
                 }
-            </div>
+            
         </>
         
     );

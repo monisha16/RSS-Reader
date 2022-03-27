@@ -6,10 +6,14 @@ import reportWebVitals from './reportWebVitals';
 // import {FeedProvider} from './context/FeedContext';
 import { Provider } from 'react-redux';
 import store from './store/index';
+import { BrowserRouter } from 'react-router-dom';
+
 
 ReactDOM.render(
   <Provider store={store}>
+   <BrowserRouter>
     <App />
+   </BrowserRouter>
   </Provider>,
   // <FeedProvider>
       // <App />

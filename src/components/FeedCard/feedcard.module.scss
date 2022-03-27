@@ -1,21 +1,28 @@
 .feed_section{
-    width: 90%;
+    width: 100%;
     height: auto;
-    background: yellow;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+
 
     &__title{
         color: black;
-        font-size: 2rem;
+        font-size: 1.7rem;
         margin-left: .5rem;
+        width: 80%;
+        text-transform: capitalize;
+        font-weight: 600;
     }
     &__card_container{
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 1rem;
-        background-color: purple;
+        margin: 1rem 0;
+        // background-color: purple;
+        width: 80%;
     }
 
 }
@@ -24,55 +31,91 @@
         display: flex;
         flex-direction: row;
         align-content: flex-start;
-        height: 8rem;
-        width: 90%;
-        background: var(--background);
+        height: 12rem;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid #E8E8E8;
+        // background: var(--background);
         margin: 0 0 1rem 0;
-        padding: 1rem;
+        // padding: 1rem;
         color: var(--color-primary);
+        justify-content: space-between;
+
+        &__bookmarkSection {
+            display: flex;
+            // flex: 1;
+            width: 4rem;
+            padding: 1.4rem 0;
+            justify-content: center;
+
+        }
 
         &__leftsection{
-            width: 10rem;
+            width: 30%;
+            max-width: 12rem;
             // position: absolute;
             img{
                 height: 100%;
-                width: 10rem;
-                border-radius: 6px;
+                width: 100%;
+                border-top-left-radius:5px;
+                border-bottom-left-radius: 5px;
             }
         }
         &__rightsection{
             display: flex;
             flex-direction: column;
             align-content: flex-start;
-            justify-content: space-between;
-            margin-left: 1rem;
-            width: 80%;
+            // justify-content: space-between;
+            // margin-left: 1rem;
+            max-width: calc(100% - 16rem);
+            flex: 1;
+            padding: 1rem;
+            padding-left: 1.5rem;
             &__title{
                 // position: absolute;
-                width: 50rem;
+                // width: 50rem;
                 // display: flex;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+        // white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+                word-break: break-word;
                 font-weight: 600;
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+                
+            @media only screen and (min-width: 200px) and (max-width: 700px) {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
             &__footer{
                 display: flex;
+                align-self: flex-end;
                 justify-content: flex-start;
                 align-content: center;
                 flex-direction: row;
-                align-items: baseline;
+                align-items: flex-end;
                 height: auto;
+                width: 100%;
+                flex:1;
+
+                & > div {
+                    text-decoration: none;
+                    font-size: 1.2rem;
+                    color: #FF6D1B;
+                    cursor: pointer;
+                }
             }
             &__description{
-                width: 50rem;
+                // width: 50rem;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                font-weight: 400;
+                // font-weight: 400;
                 font-size: 1rem;
-                color: var(--color-secondary);
+                margin-top: 0.5rem;
+                color: black;
+                opacity: 0.6;
             }
         }
 }

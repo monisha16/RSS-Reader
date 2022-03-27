@@ -5,15 +5,8 @@
     flex-direction: column;
     align-items: center;
     margin: 0 4rem;
-    background: beige;
-    // opacity: 70%;
-
-    & __nofeed{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color - primary)
-    }
+    margin-top: 2rem;
+    
 }
 .emptyfeed{
     position: relative;
@@ -24,3 +17,40 @@
     height: 90%;
     width: 100%;
 }
+.mainHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    align-items: center;
+}
+
+.manageFeedBtn {
+    display: flex;
+    align-items: center;
+    width: 14rem;
+    justify-content: space-evenly;
+    border: 1px solid #FF6D1B;
+    background: transparent;
+    height: 3rem;
+    font-weight: 400;
+    color: #FF6D1B;
+    font-family: 'IBM Plex sans';
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.feedCardContainer{
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 1px solid #E8E8E8;
+    width: 90%;
+    background: white;
+}
+// @media only screen and (min-width: 600px) and (max-width: 900px) {
+    
+//     .mainpage{
+//         margin: 0 2rem;
+//     }
+    
+// }

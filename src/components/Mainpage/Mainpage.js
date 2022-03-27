@@ -5,6 +5,7 @@ import FeedCard from '../FeedCard/FeedCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 import Header from '../Header/Header';
+import EmptyFeeds from '../EmptyFeeds/EmptyFeeds';
 
 const Mainpage = () =>{
   let dispatch = useDispatch();
@@ -52,21 +53,23 @@ const Mainpage = () =>{
   return(
     <>
       <Header />
-      <div className={styles.mainpage}>
-        {
-          Object.keys(feedData).length !== 0 ?
-            Object.keys(feedData).map((feed) => {
+      {
+        Object.keys(feedData).length !== 0 ?
+          <div className={styles.mainpage}>
+            {Object.keys(feedData).map((feed) => {
               return feedList[feed].view ?
                 <FeedCard cardData={feedData[feed]} id={feed} key={feed} type="mainData" />
                 :
-                null    //handle Empty View Page msg: Please Select feed items to view     
-            })
+                null    
+            })}
+          </div>
             :
-            <div className={styles.mainpage__nofeed}>
-              <h1> Please Add Feeds </h1>
-            </div>
+          <div className={styles.emptyfeed} >
+            <EmptyFeeds  type="myFeeds" />
+          </div>
+          
         }
-      </div>
+      
     </>
     
   )

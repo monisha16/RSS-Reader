@@ -10,18 +10,18 @@ const Header = () => {
     const [modal, setModal] = useState(false)
     const [toggleBookmark, settoggleBookmark] = useState(false);
     const [toggleMyFeed, settoggleMyFeed] = useState(true);
+    const [toggleColor, setToggleColor] = useState(true);
 
     function handleBookmarks(){
-        settoggleBookmark((value)=>!value);
-        settoggleMyFeed((value)=>!value);
+        // settoggleBookmark((value)=>!value);
+        // settoggleMyFeed((value)=>!value);
+        setToggleColor(!toggleColor);
         navigate('/bookmarks');
     }
-    // function handleAuthentication(){
-    //     console.log("Auth");
-    // }
     function handleModal(){
-        settoggleBookmark((value) => !value);
-        settoggleMyFeed((value) => !value);
+        // setToggleBookmark((value) => !value);
+        // setToggleMyFeed((value) => !value);
+        setToggleColor(!toggleColor);
         // setModal(!modal)
         navigate('/');
     }
@@ -33,15 +33,15 @@ const Header = () => {
             </div>
             <div className={styles.header__right}>
 
-                <span className={styles.header__right__text}
+                <div className={styles.header__right__text}
                     onClick={handleBookmarks}
-                        style={{ color: toggleBookmark ? 'var(--orange)' : 'var(--primary)' }}
-                    > Bookmarks</span>
+                        style={{ color: toggleColor ? 'var(--primary)' : 'var(--orange)' }}
+                    > Bookmarks</div>
 
-                <span className={styles.header__right__text}
+                <div className={styles.header__right__text}
                     onClick={handleModal}
-                        style={{ color: toggleMyFeed? 'var(--orange)': 'var(--primary)'}}
-                    > My Feeds </span>
+                        style={{ color: toggleColor? 'var(--orange)': 'var(--primary)'}}
+                    > My Feeds </div>
                 
                 {/* <span className={styles.header__right__text}
                 onClick={handleAuthentication}> Login/SignUp</span> */}

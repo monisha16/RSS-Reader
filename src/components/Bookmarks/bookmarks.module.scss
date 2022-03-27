@@ -1,0 +1,17 @@
+.mainpage{
+    height: 90%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 4rem;
+    background: beige;
+    // opacity: 70%;
+
+    & __nofeed{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color - primary)
+    }
+}

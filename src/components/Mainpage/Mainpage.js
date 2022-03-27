@@ -4,10 +4,10 @@ import { v4 as uuid } from 'uuid';
 import FeedCard from '../FeedCard/FeedCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
+import Header from '../Header/Header';
 
 const Mainpage = () =>{
   let dispatch = useDispatch();
-  const [bookmarkedList, setBookmarkedList] = useState({});
   
   useEffect(()=>{
     const feedListInSessionStorage = sessionStorage.getItem('FeedList');
@@ -45,28 +45,30 @@ const Mainpage = () =>{
     return states;
   });
   useEffect(() => {
-    const bookmarkInLocalStorage = localStorage.setItem('Bookmarks', JSON.stringify(bookmarkData));
+    localStorage.setItem('Bookmarks', JSON.stringify(bookmarkData));
   }, [bookmarkData])
 
 
   return(
-    <div className={styles.mainpage}>
-    {
-      Object.keys(feedData).length !==0 ?
-          Object.keys(feedData).map((feed)=>{
-            {/* console.log("Mainpage ittr",feedData[feed]);
-            console.log("feed in Mainpage", feed); */}
-            return feedList[feed].view ?  
-                    <FeedCard cardData={feedData[feed]} id={feed} key={feed} />
-                    :
-                    null    //handle Empty View Page msg: Please Select feed items to view     
-        })
-        :
-        <div className={styles.mainpage__nofeed}>
-          <h1> Please Add Feeds </h1>
-        </div>
-    }
-    </div>
+    <>
+      <Header />
+      <div className={styles.mainpage}>
+        {
+          Object.keys(feedData).length !== 0 ?
+            Object.keys(feedData).map((feed) => {
+              return feedList[feed].view ?
+                <FeedCard cardData={feedData[feed]} id={feed} key={feed} type="mainData" />
+                :
+                null    //handle Empty View Page msg: Please Select feed items to view     
+            })
+            :
+            <div className={styles.mainpage__nofeed}>
+              <h1> Please Add Feeds </h1>
+            </div>
+        }
+      </div>
+    </>
+    
   )
 };
 

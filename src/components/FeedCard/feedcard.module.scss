@@ -65,5 +65,14 @@
                 align-items: baseline;
                 height: auto;
             }
+            &__description{
+                width: 50rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 400;
+                font-size: 1rem;
+                color: var(--color-secondary);
+            }
         }
 }

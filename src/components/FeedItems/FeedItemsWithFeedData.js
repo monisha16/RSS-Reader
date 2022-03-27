@@ -10,6 +10,7 @@ import { FEED_DATA, FEED_LIST } from '../../store/actionTypes';
 
 
 const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
+    const dispatch = useDispatch();
     // 1. Decide what feeds get viewed through checkboxes | toggle view
     // 2. Delete a feed on click of delete
     // 3. Edit the name of the feed
@@ -23,8 +24,19 @@ const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
         return states;
     });
     function deleteFeed(e, id) {
-        let newFeedList = { ...feedList}
-        delete newFeedList[id];
+        let newFeedList1 = { ...feedData}
+        delete newFeedList1[id];
+
+        let newFeedList2 = { ...feedList }
+        delete newFeedList2[id];
+        dispatch({
+            type: FEED_DATA,
+            payload: newFeedList1
+        });
+        dispatch({
+            type: FEED_LIST,
+            payload: newFeedList2
+        });
         // let newFeedList = Object.keys(feed)
             // .filter((key) => key !== id)
             // .reduce((obj, key) => {
@@ -33,7 +45,7 @@ const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
             //     return obj;
             // }, {});
         // sessionStorage.setItem('FeedList', JSON.stringify(newFeedList));
-        // toggleSetFeed(newFeedList);
+        // toggleSetFeed(newFeedList2);
     }
 
     function handleSelect(e, id) {
@@ -44,7 +56,11 @@ const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
         let newFeed = { ...feed, [id]: newObj };
 
         // sessionStorage.setItem('FeedList', JSON.stringify(newFeed));
-        toggleSetFeed(newFeed);
+        // toggleSetFeed(newFeed);
+        dispatch({
+            type: FEED_LIST,
+            payload: newFeed
+        });
     }
     return (
         <div className={styles.items_container}
@@ -60,31 +76,20 @@ const FormSection = () => {
     const apiKey = "s5mybzzw2gktjneccuxfnbs9yikyzd6eohm7d70k";
     const [feedName, setFeedName] = useState(""); // name Input
     const [feedURL, setFeedURL] = useState(""); // URL Input
-    const [formFeed, setFormFeed] = useState({}); //Final Form Value
-    const [completeFeed, setCompleteFeed] = useState({}); // complete FeedData state
 
     const dispatch = useDispatch();
+    const { feedList, feedData, bookmarkData } = useSelector((state) => {
+        const states = {
+            feedList: state.feedReducer.feedList,
+            feedData: state.feedReducer.feedData,
+            bookmarkData: state.feedReducer.bookmarkData
+        }
+        return states;
+    });
 
     useEffect(() => {
-        //FeedList in SessionStorage
-        const feedItemsInSessionStorage = sessionStorage.getItem('FeedList');
-        if (feedItemsInSessionStorage) {
-            setFormFeed(JSON.parse(feedItemsInSessionStorage));
-        }
-        //FeedData in SessionStorage
-        const feedDataInSessionStorage = sessionStorage.getItem('FeedData'); //{complete data mapping}
-        if (feedDataInSessionStorage) {
-            setCompleteFeed(JSON.parse(feedDataInSessionStorage));
-        }
-    }, []);
-
-    useEffect(() => {
-        sessionStorage.setItem('FeedList', JSON.stringify(formFeed));
-        dispatch({
-            type: FEED_LIST,
-            payload: formFeed
-        });
-    }, [formFeed]);
+        sessionStorage.setItem('FeedList', JSON.stringify(feedList));
+    }, [feedList]);
 
     const getFeeds = async (feedItem) => {
         const { data } = await axios.get(feedItem.url);
@@ -101,42 +106,28 @@ const FormSection = () => {
 
     useEffect(() => {
         // Array of { id: mainFeedId, url: feed's URL(RSS -> JSON)}
-        const urlList = Object.keys(formFeed).map(id => {
+        const urlList = Object.keys(feedList).map(id => {
             return {
                 id: id,
-                name: formFeed[id].name,
-                url: `https://api.rss2json.com/v1/api.json?rss_url=${formFeed[id].url}&api_key=${apiKey}&count=5`
+                name: feedList[id].name,
+                url: `https://api.rss2json.com/v1/api.json?rss_url=${feedList[id].url}&api_key=${apiKey}&count=5`
             }
         });
 
         urlList.length !==0 && urlList.forEach(async(feedItem) => {
             let newData = await getFeeds(feedItem);
-            setCompleteFeed((data) => { return { ...data, [feedItem.id]: newData } });
+            let tempFeedData = { ...feedData, [feedItem.id]: newData }
+            dispatch({
+            type: FEED_DATA,
+            payload: tempFeedData
         });
-    }, [formFeed]);
-
-    // function fetchData(data){
-    //     const urlList = Object.keys(data).map(id => {
-    //         return {
-    //             id: id,
-    //             name: formFeed[id].name,
-    //             url: `https://api.rss2json.com/v1/api.json?rss_url=${formFeed[id].url}&api_key=${apiKey}&count=5`
-    //         }
-    //     });
-
-    //     urlList.length !== 0 && urlList.forEach(async (feedItem) => {
-    //         let newData = await getFeeds(feedItem);
-    //         setCompleteFeed((data) => { return { ...data, [feedItem.id]: newData } });
-    //     });
-    // }
+            // setCompleteFeed((data) => { return { ...data, [feedItem.id]: newData } });
+        });
+    }, [feedList]);
 
     useEffect(()=>{
-        Object.keys(completeFeed).length !== 0 && sessionStorage.setItem('FeedData', JSON.stringify(completeFeed));
-        dispatch({
-            type: FEED_DATA,
-            payload: completeFeed
-        })
-    },[completeFeed])
+        sessionStorage.setItem('FeedData', JSON.stringify(feedData));
+    },[feedData])
 
     function handleFeedName(e) {
         setFeedName(e.target.value);
@@ -145,13 +136,28 @@ const FormSection = () => {
         setFeedURL(e.target.value);
     }
     function handleSubmit(e) {
-        setFormFeed((data) => {
-            return { ...data, [uuid()]: { name: feedName, url: feedURL, view: true } };
-        });
-        // fetchData({ name: feedName, url: feedURL, view: true });
-        setFeedURL("")
-        setFeedName("");
-        e.preventDefault();
+        // const match = Object.keys(feedList).filter(
+        //     (feed) =>
+        //         feedList[feed].name.includes(feedName.value.trim()) ||
+        //         feedList[feed].url.includes(feedURL.value.trim())
+        // );
+        // if (match.length){
+        //     console.log("The URL or Name already exists");
+        //     setFeedURL("");
+        //     setFeedName("");
+        //     e.preventDefault();
+        // }
+        // else{
+            let tempFeedList = { ...feedList, [uuid()]: { name: feedName, url: feedURL, view: true } };
+            dispatch({
+                type: FEED_LIST,
+                payload: tempFeedList
+            });
+            setFeedURL("")
+            setFeedName("");
+            e.preventDefault();
+        // }
+        
     }
 
     return (
@@ -184,18 +190,17 @@ const FormSection = () => {
             </form>
 
             <div className={styles.feedList}>
-                {Object.keys(formFeed).length === 0 ?
+                {Object.keys(feedList).length === 0 ?
                     <h2> No Feeds </h2>
                     :
-                    Object.keys(formFeed).map((id) => {
-                        return <FeedItemsCard key={id} feed={formFeed} id={id} toggleSetFeed={setFormFeed} />
+                    Object.keys(feedList).map((id) => {
+                        return <FeedItemsCard key={id} feed={feedList} id={id} />
                     })
-                }
+                } 
             </div>
         </>
     );
 }
-
 
 const FeedItemsWithFeedData = ({ toggle }) => {
 

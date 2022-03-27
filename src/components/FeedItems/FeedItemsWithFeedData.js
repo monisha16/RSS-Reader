@@ -136,28 +136,14 @@ const FormSection = () => {
         setFeedURL(e.target.value);
     }
     function handleSubmit(e) {
-        // const match = Object.keys(feedList).filter(
-        //     (feed) =>
-        //         feedList[feed].name.includes(feedName.value.trim()) ||
-        //         feedList[feed].url.includes(feedURL.value.trim())
-        // );
-        // if (match.length){
-        //     console.log("The URL or Name already exists");
-        //     setFeedURL("");
-        //     setFeedName("");
-        //     e.preventDefault();
-        // }
-        // else{
-            let tempFeedList = { ...feedList, [uuid()]: { name: feedName, url: feedURL, view: true } };
-            dispatch({
-                type: FEED_LIST,
-                payload: tempFeedList
-            });
-            setFeedURL("")
-            setFeedName("");
-            e.preventDefault();
-        // }
-        
+        let tempFeedList = { ...feedList, [uuid()]: { name: feedName, url: feedURL, view: true } };
+        dispatch({
+            type: FEED_LIST,
+            payload: tempFeedList
+        });
+        setFeedURL("")
+        setFeedName("");
+        e.preventDefault();
     }
 
     return (

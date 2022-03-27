@@ -1,99 +1,73 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect,} from 'react';
 import styles from './mainpage.module.scss';
-import axios from "axios";
 import { v4 as uuid } from 'uuid';
+import FeedCard from '../FeedCard/FeedCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 
-
-// const Mainpage = () =>{
-//   const { feedList, setFeedList } = useContext(FeedContext);
-//   return(
-//     <div>
-//       Hello
-//     </div>
-//   )
-// }
-
-
-
-
-
-const Mainpage = () => {
-  const [completeFeed, setCompleteFeed] = useState({}); //complete data of the feeds
-  const [feedList, setFeedList] = useState({}); //just the list of names and urls
-  const [ feedItems, setFeedItems] = useState({}); // new feed Item list
-
-    useEffect(() => {
-        const feedItemsInSessionStorage = sessionStorage.getItem('FeedList'); //{id, name, url}
-        if (feedItemsInSessionStorage) {
-            setFeedList(JSON.parse(feedItemsInSessionStorage));
-        }
-        const feedDataInSessionStorage = sessionStorage.getItem('FeedData'); //{complete data mapping}
-        if (feedDataInSessionStorage) {
-            setCompleteFeed(JSON.parse(feedDataInSessionStorage));
-        }
-    }, []);
-
-    useEffect(() => {
-        sessionStorage.setItem('FeedData', JSON.stringify(completeFeed));
-    }, [completeFeed]);
-    
-
-//   const apiKey = process.env.REACT_APP_API_KEY;
-    const apiKey = "s5mybzzw2gktjneccuxfnbs9yikyzd6eohm7d70k";
-
-    // Array of { id: mainFeedId, url: feed's URL(RSS -> JSON)}
-    const urlList = Object.keys(feedList).map(id=> { 
-        return {
-            id: id,
-            name: feedList[id].name,
-            url: `https://api.rss2json.com/v1/api.json?rss_url=${feedList[id].url}&api_key=${apiKey}&count=5`
-        }
-    });
-
-
-  const getFeeds = async (feedItem) => {
-    const { data } = await axios.get(feedItem.url);
-    console.log(data);
-    Object.keys(data).forEach(item=>{
-        if(item === 'items')
-        {
-            data[item].forEach(
-                (content)=> {
-                setFeedItems((data) => { return { ...data, [uuid()]: content }});
-            });
-        }
-    });
-    let newList = {};
-    newList = feedItems;
-    console.log("feedItems", feedItems)
-    setCompleteFeed((data) => { return { ...data, [feedItem.id]: newList } });
-  };
-
-
-  useEffect(() => {
-    urlList.forEach((feedItem) =>
-    {
-        getFeeds(feedItem);
-        // console.log("urlList - feedItem", urlList, feedItem);
-    });
-  }, [feedList]);
-
+const Mainpage = () =>{
+  let dispatch = useDispatch();
+  const [bookmarkedList, setBookmarkedList] = useState({});
+  
   useEffect(()=>{
-    sessionStorage.setItem("FeedData", JSON.stringify(completeFeed));
-    // console.log("completeFeed", completeFeed);
-  },[completeFeed])
+    const feedListInSessionStorage = sessionStorage.getItem('FeedList');
+    if (feedListInSessionStorage) {
+      dispatch({
+        type: FEED_LIST,
+        payload: JSON.parse(feedListInSessionStorage)
+      })
+    }
 
-  return (
-    <div>
-      {/* <Header />
-      {!urls.length ? (
-        <NoFeeds text="Add feeds to consume your content" />
-      ) : (
-        <FeedList feeds={feeds} />
-      )} */}
-      Main page
+    const feedItemsInSessionStorage = sessionStorage.getItem('FeedData');
+    if (feedItemsInSessionStorage) {
+      dispatch({
+        type: FEED_DATA,
+        payload: JSON.parse(feedItemsInSessionStorage)
+      })
+    }
+    
+    const bookmarkInLocalStorage = localStorage.getItem('Bookmarks');
+    if (bookmarkInLocalStorage) {
+      dispatch({
+        type: BOOKMARK_DATA,
+        payload: JSON.parse(bookmarkInLocalStorage)
+      })
+    }
+    
+  },[]);
+
+  const { feedList, feedData, bookmarkData } = useSelector((state) => {
+    const states = {
+      feedList: state.feedReducer.feedList,
+      feedData: state.feedReducer.feedData,
+      bookmarkData: state.feedReducer.bookmarkData
+    }
+    return states;
+  });
+  useEffect(() => {
+    const bookmarkInLocalStorage = localStorage.setItem('Bookmarks', JSON.stringify(bookmarkData));
+  }, [bookmarkData])
+
+
+  return(
+    <div className={styles.mainpage}>
+    {
+      Object.keys(feedData).length !==0 ?
+          Object.keys(feedData).map((feed)=>{
+            {/* console.log("Mainpage ittr",feedData[feed]);
+            console.log("feed in Mainpage", feed); */}
+            return feedList[feed].view ?  
+                    <FeedCard cardData={feedData[feed]} id={feed} key={feed} />
+                    :
+                    null    //handle Empty View Page msg: Please Select feed items to view     
+        })
+        :
+        <div className={styles.mainpage__nofeed}>
+          <h1> Please Add Feeds </h1>
+        </div>
+    }
     </div>
-  );
+  )
 };
 
 export default Mainpage;

@@ -14,17 +14,26 @@ const FeedItemsCard = ({ feed, id, toggleSetFeed }) => {
     // 2. Delete a feed on click of delete
     // 3. Edit the name of the feed
     // 4. fix SCROLLING
-
+    const { feedList, feedData, bookmarkData } = useSelector((state) => {
+        const states = {
+            feedList: state.feedReducer.feedList,
+            feedData: state.feedReducer.feedData,
+            bookmarkData: state.feedReducer.bookmarkData
+        }
+        return states;
+    });
     function deleteFeed(e, id) {
-        let newFeedList = Object.keys(feed)
-            .filter((key) => key !== id)
-            .reduce((obj, key) => {
-                // console.log("dele OBJ, KEY: ", obj, key)
-                obj[key] = feed[key];
-                return obj;
-            }, {});
+        let newFeedList = { ...feedList}
+        delete newFeedList[id];
+        // let newFeedList = Object.keys(feed)
+            // .filter((key) => key !== id)
+            // .reduce((obj, key) => {
+            //     // console.log("dele OBJ, KEY: ", obj, key)
+            //     obj[key] = feed[key];
+            //     return obj;
+            // }, {});
         // sessionStorage.setItem('FeedList', JSON.stringify(newFeedList));
-        toggleSetFeed(newFeedList);
+        // toggleSetFeed(newFeedList);
     }
 
     function handleSelect(e, id) {
@@ -91,7 +100,6 @@ const FormSection = () => {
     };
 
     useEffect(() => {
-        
         // Array of { id: mainFeedId, url: feed's URL(RSS -> JSON)}
         const urlList = Object.keys(formFeed).map(id => {
             return {
@@ -101,14 +109,26 @@ const FormSection = () => {
             }
         });
 
-
         urlList.length !==0 && urlList.forEach(async(feedItem) => {
             let newData = await getFeeds(feedItem);
             setCompleteFeed((data) => { return { ...data, [feedItem.id]: newData } });
         });
-        
-        
     }, [formFeed]);
+
+    // function fetchData(data){
+    //     const urlList = Object.keys(data).map(id => {
+    //         return {
+    //             id: id,
+    //             name: formFeed[id].name,
+    //             url: `https://api.rss2json.com/v1/api.json?rss_url=${formFeed[id].url}&api_key=${apiKey}&count=5`
+    //         }
+    //     });
+
+    //     urlList.length !== 0 && urlList.forEach(async (feedItem) => {
+    //         let newData = await getFeeds(feedItem);
+    //         setCompleteFeed((data) => { return { ...data, [feedItem.id]: newData } });
+    //     });
+    // }
 
     useEffect(()=>{
         Object.keys(completeFeed).length !== 0 && sessionStorage.setItem('FeedData', JSON.stringify(completeFeed));
@@ -127,7 +147,8 @@ const FormSection = () => {
     function handleSubmit(e) {
         setFormFeed((data) => {
             return { ...data, [uuid()]: { name: feedName, url: feedURL, view: true } };
-        })
+        });
+        // fetchData({ name: feedName, url: feedURL, view: true });
         setFeedURL("")
         setFeedName("");
         e.preventDefault();

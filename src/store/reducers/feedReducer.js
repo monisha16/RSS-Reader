@@ -12,21 +12,21 @@ const initialState = {
 const FeedReducer = (state = initialState, action) => {
     switch (action.type) {
         case FEED_LIST:
-            console.log("setting feedList..")
+            // console.log("setting feedList..")
             sessionStorage.setItem('FeedList', JSON.stringify(action.payload));
             return {
                 ...state,
                 feedList: action.payload
             };
         case FEED_DATA:
-            console.log("setting complete FeedData..")
+            // console.log("setting complete FeedData..")
             sessionStorage.setItem('FeedData', JSON.stringify(action.payload));
             return {
                 ...state,
                 feedData: action.payload
             };
         case BOOKMARK_DATA:
-            console.log("setting bookmarkData..")
+            // console.log("setting bookmarkData..")
             return {
                 ...state,
                 bookmarkData: action.payload

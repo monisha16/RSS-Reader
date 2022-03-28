@@ -10,7 +10,7 @@ const Header = () => {
     const location = useLocation();
     const [toggleColor, setToggleColor] = useState(true);
     useEffect(()=>{
-        console.log("useLocation: ", location.pathname);
+        // console.log("useLocation: ", location.pathname);
         if(location.pathname === '/bookmarks'){
             setToggleColor(false);
         }

@@ -85,7 +85,7 @@ const FormSection = () => {
 
     const getFeeds = async (feedItem) => {
         const { data } = await axios.get(feedItem.url);
-        console.log(data);
+        // console.log(data);
         let tempFeedItems = {};
 
         data['items'].forEach(

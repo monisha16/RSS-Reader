@@ -7,6 +7,7 @@ import EmptyFeeds from '../EmptyFeeds/EmptyFeeds';
 import slider from "../../assets/images/slider.png";
 // import FeedItemsWithFeedData from "../FeedItems/FeedItemsWithFeedData";
 import FeedItems from "../FeedItems/FeedItems";
+import NotFound from '../NotFound/NotFound';
 
 const Mainpage = () =>{
   let dispatch = useDispatch();
@@ -58,24 +59,47 @@ const Mainpage = () =>{
     <>
       {
         Object.keys(feedData).length !== 0 ?
-          <div className={styles.mainpage}>
-            <div className={styles.mainHeader}>
-              <h1 style={{fontWeight:900, fontSize:"2rem"}}>My Feed</h1>
-              <button className={styles.manageFeedBtn} onClick={()=>{openModal()}}>
-                <img src={slider} alt="manage-feed" height={20} width={20}/>
-                Manage Feed
-              </button>
-            </div>
-            <div className={styles.feedCardContainer}>
-            {Object.keys(feedData).map((feed) => {
-              return feedList[feed].view ?
-                <FeedCard cardData={feedData[feed]} id={feed} key={feed} type="mainData" />
-                :
-                null    
-            })}
-            </div>
-          </div>
-            :
+
+          Object.keys(feedList).filter((item) => {
+            return feedList[item].view === true
+          }).length !== 0 ?
+
+              <div className={styles.mainpage}>
+                <div className={styles.mainHeader}>
+                  <h1 style={{fontWeight:900, fontSize:"2rem"}}>My Feed</h1>
+                  <button className={styles.manageFeedBtn} onClick={()=>{openModal()}}>
+                    <img src={slider} alt="manage-feed" height={20} width={20}/>
+                    Manage Feed
+                  </button>
+                </div>
+                <div className={styles.feedCardContainer}>
+                {Object.keys(feedData).map((feed) => {
+                  return feedList[feed].view ?
+                    <FeedCard cardData={feedData[feed]} id={feed} key={feed} type="mainData" />
+                    :
+                    null    
+                })}
+                </div>
+              </div>
+              :
+              <>
+              
+            <div className={styles.mainpage}>
+              <div className={styles.mainHeader}>
+                <h1 style={{ fontWeight: 900, fontSize: "2rem" }}>My Feed</h1>
+                <button className={styles.manageFeedBtn} onClick={() => { openModal() }}>
+                  <img src={slider} alt="manage-feed" height={20} width={20} />
+                  Manage Feed
+                </button>
+              </div>
+              </div>
+              <div className={styles.container}>
+                {/* <div className={styles.content}> */}
+                  <div className={styles.container__text}>{"No Feeds Chosen"}</div>
+                {/* </div> */}
+              </div>
+            </>
+          :
           <div className={styles.emptyfeed} >
             <EmptyFeeds setModal={setModal}  type="myFeeds" />
           </div>

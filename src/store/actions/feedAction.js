@@ -14,7 +14,7 @@ import { FEED_DATA, FEED_LIST } from '../actionTypes';
 //     })
 // }
 export const update_feedList = (data) => {
-    console.log("inside Action feedList")
+    // console.log("inside Action feedList")
     return {
         type: FEED_LIST,
         payload: data

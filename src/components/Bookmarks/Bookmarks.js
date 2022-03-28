@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 import styles from './bookmarks.module.scss';
@@ -32,11 +32,9 @@ const Bookmarks = () => {
             })
         }
 
-    }, []);
-    const { feedList, feedData, bookmarkData } = useSelector((state) => {
+    }, [dispatch]);
+    const { bookmarkData } = useSelector((state) => {
         const states = {
-            feedList: state.feedReducer.feedList,
-            feedData: state.feedReducer.feedData,
             bookmarkData: state.feedReducer.bookmarkData
         }
         return states;

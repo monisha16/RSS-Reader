@@ -2,17 +2,18 @@ import React from 'react';
 import { useLocation } from "react-router-dom";
 import { timeSince } from '../../utils';
 import styles from './feedview.module.scss';
-// import backArrow from '../../assets/images/backArrow.png';
-// import defaultImg from '../../assets/images/defaultImg.png';
 import linkIcon from '../../assets/images/link.png';
 import twitter from '../../assets/images/twitter.png';
 import facebook from '../../assets/images/facebook.png';
 import linkedIn from '../../assets/images/linkedin.png';
 import { useNavigate } from 'react-router-dom';
+import NotFound from '../NotFound/NotFound';
 
 const FeedView = () => {
     const navigate = useNavigate();
     const {state} = useLocation();
+
+    if (state === null) return <NotFound />
     return (
         <>
             <div className={styles.feedView}>

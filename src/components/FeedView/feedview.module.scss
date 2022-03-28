@@ -21,19 +21,98 @@
     align-items: center;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    img{
-        height: 1.2rem;
-    }
+    // align-items: center;
+    span{
+        display: flex;
+        align-items: center;
+        img{
+            height: 1.2rem;
+        }
+        &:hover{
+            cursor: pointer;
+        }
+    } 
 }
 .feed_content{
+    // display: flex;
+    // flex-direction: column;
+    // border-radius: 5px;
+    // border: 1px solid #E8E8E8;
+    // width: 90%;
+    font-family: 'IBM Plex Sans';
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    border-radius: 5px;
+    border: 1px solid #E8E8E8;
+    width: 90%;
+    background: white;
+    font-size: 1rem;
+    padding: 1rem 2rem;
+    margin-bottom: 3rem;
+
+    &__header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+
+        &__sharing{
+            width: 10rem;
+            display: flex;
+            justify-content: space-between;
+            & > a{
+                & > img{
+                    opacity: 0.5;
+                    &:hover{
+                        opacity: 1;
+                    }
+                }
+            }
+            &__bookmarkSection {
+                display: flex;
+                // flex: 1;
+                width: 4rem;
+                padding: 1.4rem 0;
+                justify-content: center;
+
+            }
+        }
+
+        &__publish{
+            font-size: 1.2rem;
+            color: rgba(0,0,0,0.3);
+            &__date{
+                font-size:1rem;
+                color: rgba(0,0,0,0.3);
+            }
+        }
+    }
+
+    &__description{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.7);
+    }
 
     &__thumbnail{
         height: 10rem;
         img{
             height: 100%;
             width: 100%;
+        }
+    }
+    &__content{
+        font-size: 1rem;
+        width: 100%;
+        & > figure{
+            & > img{
+                max-width:100%;
+            }
+        }
+        & > div{
+            & > img{
+                max-width: 100%;
+            }
         }
     }
 }

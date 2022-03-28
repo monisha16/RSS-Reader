@@ -1,34 +1,35 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import styles from './header.module.scss'
 import myRSSFeederLogo from '../../assets/images/myRSSFeederLogo.png';
-import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 
 const Header = () => {
     const navigate = useNavigate();
-    // const [modal, setModal] = useState(false)
-    // const [toggleBookmark, settoggleBookmark] = useState(false);
-    // const [toggleMyFeed, settoggleMyFeed] = useState(true);
+    const location = useLocation();
     const [toggleColor, setToggleColor] = useState(true);
-
+    useEffect(()=>{
+        console.log("useLocation: ", location.pathname);
+        if(location.pathname === '/bookmarks'){
+            setToggleColor(false);
+        }
+        else if (location.pathname === '/'){
+            setToggleColor(true);
+        }    
+    }, [location.pathname])
+    
     function handleBookmarks(){
-        // settoggleBookmark((value)=>!value);
-        // settoggleMyFeed((value)=>!value);
         setToggleColor(!toggleColor);
         navigate('/bookmarks');
     }
     function handleModal(){
-        // setToggleBookmark((value) => !value);
-        // setToggleMyFeed((value) => !value);
         setToggleColor(!toggleColor);
-        // setModal(!modal)
         navigate('/');
     }
     return (
         <>
-        <div className={styles.header}>
+        <div id="myHeader" className={styles.header}>
             <div className={styles.header__image}>
                 <img src={myRSSFeederLogo} alt="logo" />
             </div>
@@ -50,42 +51,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-/**
- Sample Data for Complete Feed Data
-
-    {
-        mainFeedId1:
-        {
-            name: feedName,
-            items:{
-                uniqueItem1:{
-                    item content: ...
-                },
-                uniqueItem2:{
-                    item content: ...
-                },
-                
-            }
-        },
-        mainFeedId2:
-        {
-            name: feedName,
-            items:{
-                uniqueItem1:{
-                    item content: ...
-                },
-                uniqueItem2:{
-                    item content: ...
-                },
-                
-            }
-        }
-    }
-
-
-
-
-
- */

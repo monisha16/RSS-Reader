@@ -1,12 +1,12 @@
 import React, { useState, useEffect,} from 'react';
 import styles from './mainpage.module.scss';
-import { v4 as uuid } from 'uuid';
 import FeedCard from '../FeedCard/FeedCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 import EmptyFeeds from '../EmptyFeeds/EmptyFeeds';
 import slider from "../../assets/images/slider.png";
-import FeedItemsWithFeedData from "../FeedItems/FeedItemsWithFeedData"
+// import FeedItemsWithFeedData from "../FeedItems/FeedItemsWithFeedData";
+import FeedItems from "../FeedItems/FeedItems";
 
 const Mainpage = () =>{
   let dispatch = useDispatch();
@@ -40,7 +40,7 @@ const Mainpage = () =>{
       })
     }
     
-  },[]);
+  },[dispatch]);
 
   const { feedList, feedData, bookmarkData } = useSelector((state) => {
     const states = {
@@ -81,7 +81,7 @@ const Mainpage = () =>{
           </div>
           
         }
-        {modal && <FeedItemsWithFeedData toggle={setModal} />} 
+        {modal && <FeedItems toggle={setModal} />} 
     </>
     
   )

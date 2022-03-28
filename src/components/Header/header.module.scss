@@ -1,11 +1,13 @@
 .header{
     background: var(--white);
     height: 10%;
-    position: relative;
+    position: sticky;
+    position: -webkit-sticky;
+    top:0;
+    z-index:1999;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    // margin-top: 0.5rem;
     padding: 1rem 5rem;
     color: var(--primary);
     align-items: flex-end;
@@ -49,8 +51,8 @@
     .header__right{
         width:30%;
     }
-    .header{
-        padding: 2rem;
+       .header{
+        padding: 1rem;
     }
     
 }

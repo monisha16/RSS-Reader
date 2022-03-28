@@ -1,14 +1,19 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import styles from './emptyfeeds.module.scss';
-import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
-import { Navigate } from 'react-router-dom';
+// import FeedItemsWithFeedData from '../FeedItems/FeedItemsWithFeedData';
+import FeedItems from '../FeedItems/FeedItems';
+import { useNavigate } from 'react-router-dom';
 
 const EmptyFeeds = ({type}) => {
+    const navigate = useNavigate();
     const [modal, setModal] = useState(false)
     function openModal(){
         setModal(!modal)
     }
 
+    // function handleEmptyBookmars(){
+    //     na
+    // }
     return (
         <>
             { type === 'myFeeds' ?
@@ -24,11 +29,11 @@ const EmptyFeeds = ({type}) => {
                     <h1>Bookmarks</h1>
                     <div className={styles.content}>
                         <div className={styles.content__text}>{"You currently don't have any bookmarks"}</div>
-                        <button onClick={()=> Navigate('/')} > Go to My Feeds </button>
+                        <button onClick={()=>navigate('/')} > Go to My Feeds </button>
                     </div>
                 </div>
             }
-            {modal && <FeedItemsWithFeedData toggle={setModal} />} 
+            {modal && <FeedItems toggle={setModal} />} 
         </>
         
     );

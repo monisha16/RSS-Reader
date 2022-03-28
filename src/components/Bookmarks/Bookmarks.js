@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FEED_DATA, FEED_LIST, BOOKMARK_DATA } from '../../store/actionTypes';
 import styles from './bookmarks.module.scss';
 import FeedCard from '../FeedCard/FeedCard';
-import Header from '../Header/Header';
 import EmptyFeeds from '../EmptyFeeds/EmptyFeeds';
 
 const Bookmarks = () => {

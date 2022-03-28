@@ -12,15 +12,10 @@ import { FEED_DATA, FEED_LIST } from '../../store/actionTypes';
 
 const FeedItemsCard = ({ feed, id }) => {
     const dispatch = useDispatch();
-    // 1. Decide what feeds get viewed through checkboxes | toggle view
-    // 2. Delete a feed on click of delete
-    // 3. Edit the name of the feed
-    // 4. fix SCROLLING
-    const { feedList, feedData, bookmarkData } = useSelector((state) => {
+    const { feedList, feedData } = useSelector((state) => {
         const states = {
             feedList: state.feedReducer.feedList,
             feedData: state.feedReducer.feedData,
-            bookmarkData: state.feedReducer.bookmarkData
         }
         return states;
     });
@@ -38,15 +33,6 @@ const FeedItemsCard = ({ feed, id }) => {
             type: FEED_LIST,
             payload: newFeedList2
         });
-        // let newFeedList = Object.keys(feed)
-        // .filter((key) => key !== id)
-        // .reduce((obj, key) => {
-        //     // console.log("dele OBJ, KEY: ", obj, key)
-        //     obj[key] = feed[key];
-        //     return obj;
-        // }, {});
-        // sessionStorage.setItem('FeedList', JSON.stringify(newFeedList));
-        // toggleSetFeed(newFeedList2);
     }
 
     function handleSelect(e, id) {
@@ -56,17 +42,13 @@ const FeedItemsCard = ({ feed, id }) => {
         }
         let newFeed = { ...feed, [id]: newObj };
 
-        // sessionStorage.setItem('FeedList', JSON.stringify(newFeed));
-        // toggleSetFeed(newFeed);
         dispatch({
             type: FEED_LIST,
             payload: newFeed
         });
     }
     return (
-        <div className={styles.items_container}
-        // style={{ background: feed[id].view ? 'green' : 'red' }}
-        >
+        <div className={styles.items_container}>
             <div className={styles.items_container__feedName}>{feed[id].name}</div>
             <div className={styles.items_container__feedURL}>{feed[id].url}</div>
             <div className={styles.items_container__icons}>
@@ -79,7 +61,6 @@ const FeedItemsCard = ({ feed, id }) => {
                 <img className={styles.items_container__delete} src={deleteImg}
                     alt={"delete-feed"} onClick={(e) => deleteFeed(e, id)} />
             </div>
-
         </div>
     );
 }
@@ -90,11 +71,10 @@ const FormSection = () => {
     const [feedURL, setFeedURL] = useState(""); // URL Input
 
     const dispatch = useDispatch();
-    const { feedList, feedData, bookmarkData } = useSelector((state) => {
+    const { feedList, feedData } = useSelector((state) => {
         const states = {
             feedList: state.feedReducer.feedList,
             feedData: state.feedReducer.feedData,
-            bookmarkData: state.feedReducer.bookmarkData
         }
         return states;
     });
@@ -137,10 +117,6 @@ const FormSection = () => {
         });
     }, [feedList]);
 
-    // useEffect(()=>{
-    //     debugger;
-    //     sessionStorage.setItem('FeedData', JSON.stringify(feedData));
-    // },[feedData])
 
     function handleFeedName(e) {
         setFeedName(e.target.value);

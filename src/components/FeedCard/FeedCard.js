@@ -1,8 +1,6 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import styles from './feedcard.module.scss';
-import { v4 as uuid } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import link from '../../assets/icons/link.png';
 import bookmarkFeedFalse from '../../assets/images/notBookmarked.svg';
 import bookmarkFeedTrue from '../../assets/images/bookmarked.svg';
 import { timeSince } from '../../utils';
@@ -12,7 +10,6 @@ import defaultImg from '../../assets/icons/defaultImg.png'
 
 const FeedCard = ({ cardData, id ,type }) => {
     const navigate = useNavigate();
-    const [ bookmarkToggle, setBookmarkToggle] = useState(false);
     const dispatch = useDispatch();
     const { feedList, bookmarkData } = useSelector((state) => {
         const states = {
@@ -40,8 +37,9 @@ const FeedCard = ({ cardData, id ,type }) => {
 
     function handleFeedCardClick(e,item, id){
         // localStorage.setItem('feedViewData', JSON.stringify(item));
-        navigate(`/${id}`,{state:item});
+        navigate(`/${id}`,{state:{data:item, itemId: id}});
     }
+    // { state: { item: item, id: id } }
 
     return (
         <div className={styles.feed_section}>
